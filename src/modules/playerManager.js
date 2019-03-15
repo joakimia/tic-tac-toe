@@ -1,0 +1,1 @@
+export const changePlayer = currentPlayer => currentPlayer === 'X' ? 'O' : 'X';

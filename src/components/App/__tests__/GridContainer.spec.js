@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import GridContainer from './GridContainer';
+import GridContainer from '../Panels/MiddlePanel';
 
 describe('components -> GridContainer: ', () => {
     it('renders a div', () => {
