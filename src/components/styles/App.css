@@ -5,7 +5,7 @@
 }
 
 header {
-  background-color: #666769;
+  background-color: rgb(127, 127, 127);
   font-size: calc(10px + 2vmin);
   height: 40px;
   color: white;
@@ -34,7 +34,15 @@ header {
 }
 
 .score-board, .timer {
- flex: 1 1 0%;
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.player-stats {
+  display: flex;
+  justify-content: space-around;
 }
 
 .board {

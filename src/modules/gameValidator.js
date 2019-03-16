@@ -1,4 +1,8 @@
+import { PLAYER_ONE, PLAYER_TWO } from './playerManager';
+
 const SUCCESS_COUNT = 3;
+const TOTAL_BOARD_MOVES = 9;
+export const NO_WINNER = 'No winner';
 
 const winningPatterns = {
     one: ['1A', '2A', '3A'],
@@ -11,7 +15,11 @@ const winningPatterns = {
     eight: ['3A', '2B', '1C'],
 };
 
-export const checkGameStatus = (currentMoves) => {
+export const checkGameStatus = (currentMoves, totalMovesCount) => {
+    if (totalMovesCount === TOTAL_BOARD_MOVES) {
+        return NO_WINNER;
+    }
+
     let playerOneMoves = [];
     let playerTwoMoves = [];
 
@@ -24,38 +32,37 @@ export const checkGameStatus = (currentMoves) => {
         }   
     });
 
-    const haveWon = arr => arr.length >= SUCCESS_COUNT && validateMoves(arr);
+    const haveWon = arr =>
+        arr.length >= SUCCESS_COUNT && validateMoves(arr);
 
     if (haveWon(playerOneMoves)) {
-        return 'X';
+        return PLAYER_ONE;
     } else if (haveWon(playerTwoMoves)) {
-        return 'O';
+        return PLAYER_TWO;
     } else {
         return null;
     }
 };
 
 const validateMoves = (playerMoves) => {
-    let rowCount = 0;
+    let threeInARowCount = 0;
 
     Object.values(winningPatterns).forEach((possibility) => {
-        rowCount = rowCount === 3 ? rowCount : haveThreeInARow(possibility, playerMoves);
+        threeInARowCount =
+            threeInARowCount === SUCCESS_COUNT
+                ? threeInARowCount
+                : haveThreeInARow(possibility, playerMoves);
     });
 
-    return rowCount === SUCCESS_COUNT;
+    return threeInARowCount === SUCCESS_COUNT;
 };
 
 const haveThreeInARow = (option, arr) => {
     let count = 0;
-    let index;
+
     arr.forEach((move, i) => {
-        if(count !== 3) {
-            if (option.includes(move)) {
-                count++;
-                if (count === 3 && !index) {
-                    index = i;
-                }
-            }
+        if(count !== SUCCESS_COUNT && option.includes(move)) {
+            count++;
         }
     })
     return count;

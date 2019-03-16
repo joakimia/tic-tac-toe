@@ -5,7 +5,7 @@ import WinnerDialog from '../Dialog/WinnerDialog';
 import { checkGameStatus } from '../../modules/gameValidator';
 import { sGetRegisteredMoves } from '../../reducers/player';
 import { sGetCurrentPlayer, sGetCurrentCount } from '../../reducers/gamePlanner';
-import { acChangePlayer, acStartGame } from '../../actions/gamePlanner';
+import { acChangePlayer, acStartGame, acResetCount } from '../../actions/gamePlanner';
 import { acResetMoves } from '../../actions/player';
 
 import '../styles/App.css';
@@ -19,6 +19,7 @@ export class Board extends Component {
 
     onResetGame = () => {
         this.props.resetMoves();
+        this.props.resetCount();
         this.props.resetGame();
     };
 
@@ -39,7 +40,7 @@ export class Board extends Component {
 };
 
 const mapStateToProps = state => ({
-    winner: checkGameStatus(sGetRegisteredMoves(state)),
+    winner: checkGameStatus(sGetRegisteredMoves(state), sGetCurrentCount(state)),
     currentCount: sGetCurrentCount(state),
     currentPlayer: sGetCurrentPlayer(state),
 });
@@ -47,5 +48,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     changePlayer: acChangePlayer,
     resetMoves: acResetMoves,
+    resetCount: acResetCount,
     resetGame: acStartGame,
 })(Board);
